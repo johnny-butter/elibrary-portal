@@ -30,6 +30,8 @@ export const Navbar = (props: Props) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [formOpen, setFormOpen] = useState(false);
+  const [collectionCnt, setCollectionCnt] = useState(0);
+  const [cartCnt, setCartCnt] = useState(0);
 
   const open = Boolean(anchorEl);
 
@@ -112,18 +114,18 @@ export const Navbar = (props: Props) => {
               color="inherit"
               onClick={handleCollections}
             >
-              <Badge badgeContent={4} color="error">
+              <Badge badgeContent={collectionCnt} color="error">
                 <CollectionsBookmarkIcon />
               </Badge>
             </IconButton>
 
             <IconButton
               size="large"
-              aria-label="shopping cart"
+              aria-label="shopping-cart"
               color="inherit"
               onClick={handleCart}
             >
-              <Badge badgeContent={17} color="error">
+              <Badge badgeContent={cartCnt} color="error">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
