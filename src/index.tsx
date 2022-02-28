@@ -1,13 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 import reportWebVitals from './reportWebVitals';
 
+import { BooksList, UserProfile, OauthCallback } from './pages';
+
+import { OpenAPI } from './services/elibraryAPI';
+
+import './index.css';
+
+OpenAPI.BASE = process.env.REACT_APP_BACKEND_BASE_URL || '';
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Router>
+    <Switch>
+      <Route exact path="/" component={BooksList} />
+    </Switch>
+  </Router>,
   document.getElementById('root')
 );
 
