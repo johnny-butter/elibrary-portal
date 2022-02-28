@@ -85,7 +85,6 @@ export const LoginDialog = (props: Props) => {
           <TextField
             autoFocus
             id="username"
-            type="email"
             label="USERNAME"
             variant="standard"
             margin="dense"
