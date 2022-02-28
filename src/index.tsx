@@ -16,6 +16,7 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={BooksList} />
+      <Route path="/oauthCallback" component={OauthCallback} />
       <Route path="/userProfile" component={UserProfile} />
     </Switch>
   </Router>,
