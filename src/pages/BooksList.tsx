@@ -8,13 +8,7 @@ import { Page } from './Page'
 import { Book } from '../components';
 
 import {
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
+  Grid,
   Stack,
   Pagination,
 } from '@mui/material';
@@ -42,29 +36,17 @@ export const BooksList = (): JSX.Element => {
   };
 
   const booksList = (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="books">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Book</TableCell>
-            <TableCell align="center">Type</TableCell>
-            <TableCell align="center">Author</TableCell>
-            <TableCell align="center">Price</TableCell>
-            <TableCell align="center">Sale</TableCell>
-            <TableCell align="center">Stock</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          { books.map((book: BookOut) => <Book book={book}></Book>) }
-        </TableBody>
-      </Table>
-
-      <br />
-
-      <Stack spacing={2} alignItems="center">
-        <Pagination count={totalPages} variant="outlined" shape="rounded" onChange={handlePageChange} />
-      </Stack>
-    </TableContainer>
+    <Grid
+      container
+      spacing={2}
+    >
+      { books.map((book: BookOut) => <Book book={book}></Book>) }
+      <Grid item xs={12}>
+        <Stack spacing={2} paddingBottom={5} alignItems="center">
+          <Pagination count={totalPages} variant="outlined" shape="rounded" onChange={handlePageChange} />
+        </Stack>
+      </Grid>
+    </Grid>
   )
 
   return (
