@@ -28,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "elibrary-api": "npx openapi -i http://127.0.0.1:8000/api/v1/openapi.json -o src/services/elibraryAPI"
   },
   "eslintConfig": {
     "extends": [
