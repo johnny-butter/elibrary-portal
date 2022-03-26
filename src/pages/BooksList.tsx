@@ -8,18 +8,12 @@ import { Page } from './Page'
 import { Book } from '../components';
 
 import {
-  Paper,
-  TableContainer,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
+  Grid,
   Stack,
   Pagination,
 } from '@mui/material';
 
-const { booksApiBooks } = BooksService;
+const { booksApiBooks, booksApiCollectedBooksIds } = BooksService;
 
 export const BooksList = (): JSX.Element => {
   const [token, , ] = useCookie("token");
@@ -27,6 +21,7 @@ export const BooksList = (): JSX.Element => {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [books, setBooks] = useState<BookOut[]>([]);
+  const [collectedBooksIds, setCollectedBooksIds] = useState<number[]>([]);
 
   useEffect(() => {
     booksApiBooks(page)
@@ -37,34 +32,36 @@ export const BooksList = (): JSX.Element => {
       .catch((err: ApiError) => console.log(err))
   }, [token, page]);
 
+  useEffect(() => {
+    if (!token) return;
+
+    booksApiCollectedBooksIds()
+      .then((collectedBooksIds: number[]) => {
+        setCollectedBooksIds(collectedBooksIds);
+      })
+      .catch((err: ApiError) => console.log(err))
+  }, [token]);
+
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
   const booksList = (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="books">
-        <TableHead>
-          <TableRow>
-            <TableCell align="center">Book</TableCell>
-            <TableCell align="center">Type</TableCell>
-            <TableCell align="center">Author</TableCell>
-            <TableCell align="center">Price</TableCell>
-            <TableCell align="center">Sale</TableCell>
-            <TableCell align="center">Stock</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          { books.map((book: BookOut) => <Book book={book}></Book>) }
-        </TableBody>
-      </Table>
+    <Grid
+      container
+      spacing={2}
+    >
+      { books.map((book: BookOut): JSX.Element => {
+        let isCollect = collectedBooksIds.includes(book.id);
 
-      <br />
-
-      <Stack spacing={2} alignItems="center">
-        <Pagination count={totalPages} variant="outlined" shape="rounded" onChange={handlePageChange} />
-      </Stack>
-    </TableContainer>
+        return <Book book={book} isCollect={isCollect}></Book>
+      }) }
+      <Grid item xs={12}>
+        <Stack spacing={2} paddingBottom={5} alignItems="center">
+          <Pagination count={totalPages} variant="outlined" shape="rounded" onChange={handlePageChange} />
+        </Stack>
+      </Grid>
+    </Grid>
   )
 
   return (

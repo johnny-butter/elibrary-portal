@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 export type BookOut = {
-    id?: number;
+    id: number;
     name: string;
     type?: string;
     author?: string;

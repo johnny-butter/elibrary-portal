@@ -23,9 +23,12 @@ export const Page = (props: IPageProp): JSX.Element => {
             <Grid item xs={12}>
                 <Navbar token={token} updateToken={updateToken} deleteToken={deleteToken}></Navbar>
             </Grid>
-            <Grid item xs={12}>
+
+            <Grid item xs={2}></Grid>
+            <Grid item xs={8}>
                 {props.content}
             </Grid>
+            <Grid item xs={2}></Grid>
         </Grid>
     )
 }

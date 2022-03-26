@@ -4,7 +4,12 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import reportWebVitals from './reportWebVitals';
 
-import { BooksList, UserProfile, OauthCallback } from './pages';
+import {
+  BooksList,
+  CollectedBooksList,
+  UserProfile,
+  OauthCallback,
+} from './pages';
 
 import { OpenAPI } from './services/elibraryAPI';
 
@@ -16,6 +21,7 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={BooksList} />
+      <Route path="/books/collected" component={CollectedBooksList} />
       <Route path="/oauthCallback" component={OauthCallback} />
       <Route path="/userProfile" component={UserProfile} />
     </Switch>
