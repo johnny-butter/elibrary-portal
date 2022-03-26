@@ -30,13 +30,17 @@ export const Navbar = (props: Props) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [formOpen, setFormOpen] = useState(false);
-  const [collectionCnt, setCollectionCnt] = useState(0);
   const [cartCnt, setCartCnt] = useState(0);
 
   const open = Boolean(anchorEl);
 
   const handleCollections = (event: React.MouseEvent) => {
-    if (props.token == null) setFormOpen(true);
+    if (props.token == null) {
+      setFormOpen(true);
+      return;
+    }
+
+    history.push('/books/collected');
   };
 
   const handleCart = (event: React.MouseEvent) => {
@@ -114,9 +118,7 @@ export const Navbar = (props: Props) => {
               color="inherit"
               onClick={handleCollections}
             >
-              <Badge badgeContent={collectionCnt} color="error">
-                <CollectionsBookmarkIcon />
-              </Badge>
+              <CollectionsBookmarkIcon />
             </IconButton>
 
             <IconButton

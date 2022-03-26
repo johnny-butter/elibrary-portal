@@ -13,7 +13,7 @@ import {
   Pagination,
 } from '@mui/material';
 
-const { booksApiBooks } = BooksService;
+const { booksApiBooks, booksApiCollectedBooksIds } = BooksService;
 
 export const BooksList = (): JSX.Element => {
   const [token, , ] = useCookie("token");
@@ -21,6 +21,7 @@ export const BooksList = (): JSX.Element => {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [books, setBooks] = useState<BookOut[]>([]);
+  const [collectedBooksIds, setCollectedBooksIds] = useState<number[]>([]);
 
   useEffect(() => {
     booksApiBooks(page)
@@ -31,6 +32,16 @@ export const BooksList = (): JSX.Element => {
       .catch((err: ApiError) => console.log(err))
   }, [token, page]);
 
+  useEffect(() => {
+    if (!token) return;
+
+    booksApiCollectedBooksIds()
+      .then((collectedBooksIds: number[]) => {
+        setCollectedBooksIds(collectedBooksIds);
+      })
+      .catch((err: ApiError) => console.log(err))
+  }, [token]);
+
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
@@ -40,7 +51,11 @@ export const BooksList = (): JSX.Element => {
       container
       spacing={2}
     >
-      { books.map((book: BookOut) => <Book book={book}></Book>) }
+      { books.map((book: BookOut): JSX.Element => {
+        let isCollect = collectedBooksIds.includes(book.id);
+
+        return <Book book={book} isCollect={isCollect}></Book>
+      }) }
       <Grid item xs={12}>
         <Stack spacing={2} paddingBottom={5} alignItems="center">
           <Pagination count={totalPages} variant="outlined" shape="rounded" onChange={handlePageChange} />

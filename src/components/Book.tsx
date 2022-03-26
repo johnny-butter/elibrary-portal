@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import {
   Grid,
   Card,
   CardHeader,
+  CardMedia,
   CardContent,
   CardActions,
   Chip,
@@ -15,29 +16,45 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { BookOut } from '../services/elibraryAPI';
+import { ApiError, BooksService, BookOut } from '../services/elibraryAPI';
+
+const { booksApiCollectBook } = BooksService;
 
 interface IBookProp {
   book: BookOut
-  isCollect?: boolean
+  isCollect: boolean
 }
 
 export const Book = (props: IBookProp) => {
-  const [isCollect, setCollect] = useState(props.isCollect || false);
+  const [isCollect, setIsCollect] = useState(false);
+
+  useEffect(() => {
+    setIsCollect(props.isCollect);
+  }, [props.isCollect]);
 
   const handleCollectBook = (): void => {
-    setCollect(!isCollect);
+    booksApiCollectBook(props.book.id)
+      .then(() => {
+        setIsCollect(!isCollect);
+      })
+      .catch((err: ApiError) => console.error(err));
   };
 
   const collectBtn = isCollect ? <FavoriteIcon /> : <FavoriteBorderIcon />;
 
   return (
     <React.Fragment>
-      <Grid item spacing={2} xs={6}>
-        <Card key={props.book.id} sx={{ height: 1 }}>
+      <Grid item xs={4}>
+        <Card sx={{ height: 1 }}>
           <CardHeader
             title={props.book.name}
             subheader={props.book.author}
+          />
+          <CardMedia
+            component="img"
+            sx={{ height: 170, width: 170 }}
+            image="/imgNotFound.png"
+            alt="imgNotFound"
           />
           <CardContent>
             <Typography variant="body2" color="text.secondary">
