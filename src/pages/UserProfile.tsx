@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 import { ApiError, UsersService, UserIn, UserOut, AuthOut } from '../services/elibraryAPI';
 
-import { Page } from './Page'
+import { Page } from './Page';
 
 import {
   Paper,
@@ -18,9 +18,14 @@ import {
   TableCell,
   TextField,
   Button,
+  AlertColor,
 } from '@mui/material';
 
 import { Google, Facebook } from '@mui/icons-material'
+
+import { Notifybar } from '../components';
+
+import { notify, notifyApiErr } from '../utils';
 
 const { usersApiGetUser, usersApiUpdateUser, usersApiCreateUser } = UsersService;
 
@@ -43,6 +48,11 @@ fbOauthParams.append('state', 'fb,register');
 
 export const UserProfile = (): JSX.Element => {
   const history = useHistory();
+
+  const [notifySeverity, setNotifySeverity] = useState<AlertColor>('error');
+  const [notifyMsg, setNotifyMsg] = useState('');
+  const [notifyOpen, setNotifyOpen] = useState(false);
+
   const [token, updateToken,] = useCookie('token');
 
   const [user, setUser] = useState({} as UserOut);
@@ -63,6 +73,7 @@ export const UserProfile = (): JSX.Element => {
         setEmail(u.email);
       })
       .catch((err: ApiError) => console.error(err))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -83,9 +94,16 @@ export const UserProfile = (): JSX.Element => {
 
   const handleUpdateProfile = (): void => {
     if (!email) {
-      alert('email can not be empty!');
+      notify('email can not be empty!', setNotifyMsg, setNotifyOpen,
+        {severity: 'error', setNotifySeverity: setNotifySeverity});
       return;
     }
+
+    if (password !== password2) {
+      notify('password is invalid, please check!', setNotifyMsg, setNotifyOpen,
+        {severity: 'error', setNotifySeverity: setNotifySeverity});
+      return;
+    };
 
     let userIn: UserIn = {
       username: username,
@@ -96,7 +114,7 @@ export const UserProfile = (): JSX.Element => {
       password: '',
     };
 
-    if (password && password === password2) {
+    if (password) {
       userIn.password = password;
     };
 
@@ -104,17 +122,21 @@ export const UserProfile = (): JSX.Element => {
     .then((u: UserOut) => {
       window.location.reload();
     })
-    .catch((err: ApiError) => console.error(err));
+    .catch((err: ApiError) => {
+      notifyApiErr(err.body, setNotifyMsg, setNotifyOpen, {severity: 'error', setNotifySeverity: setNotifySeverity});
+    });
   };
 
   const handleCreateUser = (): void => {
     if (!password) {
-      alert('Password is invalid, please check!');
+      notify('password is invalid, please check!', setNotifyMsg, setNotifyOpen,
+        {severity: 'error', setNotifySeverity: setNotifySeverity});
       return;
     }
 
     if (password !== password2) {
-      alert('Password is invalid, please check!');
+      notify('password is invalid, please check!', setNotifyMsg, setNotifyOpen,
+        {severity: 'error', setNotifySeverity: setNotifySeverity});
       return;
     };
 
@@ -123,7 +145,9 @@ export const UserProfile = (): JSX.Element => {
         updateToken(resp.token);
         history.push('/');
       })
-      .catch((err: ApiError) => console.error(err))
+      .catch((err: ApiError) => {
+        notifyApiErr(err.body, setNotifyMsg, setNotifyOpen, {severity: 'error', setNotifySeverity: setNotifySeverity});
+      })
   }
 
   let actionRow: JSX.Element;
@@ -169,6 +193,7 @@ export const UserProfile = (): JSX.Element => {
 
   const userProfile = (
     <TableContainer component={Paper}>
+      <Notifybar severity={notifySeverity} content={notifyMsg} open={notifyOpen} setOpen={setNotifyOpen} />
       <Table sx={{ minWidth: 650 }} aria-label="profile">
         <TableHead>
           <TableRow>

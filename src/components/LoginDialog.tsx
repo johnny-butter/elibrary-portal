@@ -12,9 +12,13 @@ import {
   DialogTitle,
 } from '@mui/material';
 
-import { Google, Facebook } from '@mui/icons-material'
+import { Google, Facebook } from '@mui/icons-material';
 
 import { ApiError, UsersService } from '../services/elibraryAPI';
+
+import { Notifybar } from '../components';
+
+import { notifyApiErr } from '../utils';
 
 const { usersApiAuth } = UsersService;
 
@@ -42,6 +46,9 @@ interface Props {
 }
 
 export const LoginDialog = (props: Props) => {
+  const [notifyMsg, setNotifyMsg] = useState("");
+  const [notifyOpen, setNotifyOpen] = useState(false);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -57,12 +64,15 @@ export const LoginDialog = (props: Props) => {
 
         window.location.reload();
       })
-      .catch((err: ApiError) => console.error(err));
+      .catch((err: ApiError) => {
+        notifyApiErr(err.body, setNotifyMsg, setNotifyOpen);
+      });
   };
 
   return (
     <div>
       <Dialog open={props.formOpen} onClose={handleClose}>
+        <Notifybar severity="error" content={notifyMsg} open={notifyOpen} setOpen={setNotifyOpen} />
         <DialogTitle>
           LOGIN
         </DialogTitle>
