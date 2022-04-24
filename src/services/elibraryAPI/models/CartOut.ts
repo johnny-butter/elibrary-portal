@@ -6,4 +6,5 @@ import type { CartItem } from './CartItem';
 
 export type CartOut = {
     data: Array<CartItem>;
+    total_price: number;
 };

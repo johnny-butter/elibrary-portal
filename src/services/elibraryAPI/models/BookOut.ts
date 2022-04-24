@@ -5,6 +5,7 @@
 export type BookOut = {
     id: number;
     name: string;
+    image_url?: string;
     type?: string;
     author?: string;
     publisher?: string;

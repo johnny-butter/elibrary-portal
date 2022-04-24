@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type { CartIn } from '../models/CartIn';
 import type { CartOut } from '../models/CartOut';
+import type { CheckoutCartIn } from '../models/CheckoutCartIn';
 import type { CheckoutCartOut } from '../models/CheckoutCartOut';
 import type { DeleteCartIn } from '../models/DeleteCartIn';
 
@@ -60,13 +61,18 @@ requestBody: DeleteCartIn,
 
     /**
      * Checkout Cart
+     * @param requestBody 
      * @returns CheckoutCartOut OK
      * @throws ApiError
      */
-    public static cartsApiCheckoutCart(): CancelablePromise<CheckoutCartOut> {
+    public static cartsApiCheckoutCart(
+requestBody: CheckoutCartIn,
+): CancelablePromise<CheckoutCartOut> {
         return __request(OpenAPI, {
             method: 'POST',
             url: '/api/v1/carts/checkout',
+            body: requestBody,
+            mediaType: 'application/json',
         });
     }
 
