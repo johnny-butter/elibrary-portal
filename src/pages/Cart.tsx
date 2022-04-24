@@ -20,11 +20,14 @@ import {
 } from '@mui/material';
 import { blue } from '@mui/material/colors';
 
-import { CartItemRow } from '../components/CartItemRow';
+import { Notifybar, CartItemRow } from '../components';
 
 const { cartsApiGetCart, cartsApiCheckoutCart } = CartsService;
 
 export const Cart = (): JSX.Element => {
+  const [notifyMsg, setNotifyMsg] = useState('');
+  const [notifyOpen, setNotifyOpen] = useState(false);
+
   const [items, setItems] = useState<CartItem[]>([]);
   const [totalPrice, setTotalPrice] = useState(999999);
 
@@ -73,7 +76,7 @@ export const Cart = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { items.map((item) => <CartItemRow item={item} />) }
+            { items.map((item) => <CartItemRow item={item} setNotifyMsg={setNotifyMsg} setNotifyOpen={setNotifyOpen} />) }
             <TableRow>
               <TableCell colSpan={2} />
               <TableCell>TOTAL</TableCell>
@@ -171,6 +174,7 @@ export const Cart = (): JSX.Element => {
 
   let cartPage: JSX.Element = (
     <>
+      <Notifybar severity='error' content={notifyMsg} open={notifyOpen} setOpen={setNotifyOpen} />
       {itemsList}
       <br />
       {orderTable}

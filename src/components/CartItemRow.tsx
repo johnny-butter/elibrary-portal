@@ -14,6 +14,8 @@ const { cartsApiPutCart, cartsApiDeleteCart } = CartsService;
 
 interface ICartItemRowProp {
   item: CartItem
+  setNotifyMsg: React.Dispatch<React.SetStateAction<string>>
+  setNotifyOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const CartItemRow = (props: ICartItemRowProp) => {
@@ -34,7 +36,9 @@ export const CartItemRow = (props: ICartItemRowProp) => {
 
     cartsApiPutCart({book_id: props.item.book.id, amount: selectedNum})
       .then(() => { setAmount(selectedNum); })
-      .catch((err: ApiError) => console.error(err))
+      .catch((err: ApiError) => {
+        notifyApiErr(err.body, props.setNotifyMsg, props.setNotifyOpen);
+      })
   };
 
   useEffect(() => {
