@@ -9,6 +9,7 @@ import {
   CollectedBooksList,
   UserProfile,
   OauthCallback,
+  Cart,
 } from './pages';
 
 import { OpenAPI } from './services/elibraryAPI';
@@ -24,6 +25,7 @@ ReactDOM.render(
       <Route path="/books/collected" component={CollectedBooksList} />
       <Route path="/oauthCallback" component={OauthCallback} />
       <Route path="/userProfile" component={UserProfile} />
+      <Route path="/cart" component={Cart} />
     </Switch>
   </Router>,
   document.getElementById('root')
