@@ -44,7 +44,12 @@ export const Navbar = (props: Props) => {
   };
 
   const handleCart = (event: React.MouseEvent) => {
-    if (props.token == null) setFormOpen(true);
+    if (props.token == null) {
+      setFormOpen(true);
+      return;
+    }
+
+    history.push('/cart');
   };
 
   const handleAccount = (event: React.MouseEvent<HTMLElement>) => {
