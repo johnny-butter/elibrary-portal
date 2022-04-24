@@ -8,6 +8,8 @@ import {
   MenuItem,
 } from '@mui/material';
 
+import { notifyApiErr } from '../utils';
+
 import { ApiError, CartsService, CartItem } from '../services/elibraryAPI';
 
 const { cartsApiPutCart, cartsApiDeleteCart } = CartsService;
@@ -48,9 +50,8 @@ export const CartItemRow = (props: ICartItemRowProp) => {
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' }, display: hidden }}>
-        <TableCell></TableCell>
-        <TableCell align="right">{props.item.book.name}</TableCell>
+      <TableRow sx={{ display: hidden }}>
+        <TableCell align="center">{props.item.book.name}</TableCell>
         <TableCell align="right">{props.item.price}</TableCell>
         <TableCell align="right">
           <Select
