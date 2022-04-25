@@ -69,8 +69,7 @@ export const Cart = (): JSX.Element => {
         <Table aria-label="cart-table">
           <TableHead>
             <TableRow>
-              <TableCell />
-              <TableCell align="right">BOOK</TableCell>
+              <TableCell align="center">BOOK</TableCell>
               <TableCell align="right">PRICE</TableCell>
               <TableCell align="right">AMOUNT</TableCell>
             </TableRow>
@@ -78,12 +77,12 @@ export const Cart = (): JSX.Element => {
           <TableBody>
             { items.map((item) => <CartItemRow item={item} setNotifyMsg={setNotifyMsg} setNotifyOpen={setNotifyOpen} />) }
             <TableRow>
-              <TableCell colSpan={2} />
-              <TableCell>TOTAL</TableCell>
-              <TableCell align="right">{totalPrice}</TableCell>
+              <TableCell colSpan={1} />
+              <TableCell align="right">TOTAL</TableCell>
+              <TableCell align="right">$ {totalPrice} NTD</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell colSpan={3} />
+              <TableCell colSpan={2} />
               <TableCell align="right">
                 <Button
                   aria-label="cart-checkout"

@@ -23,6 +23,8 @@ export const BooksList = (): JSX.Element => {
   const [books, setBooks] = useState<BookOut[]>([]);
   const [collectedBooksIds, setCollectedBooksIds] = useState<number[]>([]);
 
+  const [cartCnt, setCartCnt] = useState(0);
+
   useEffect(() => {
     booksApiBooks(page)
       .then((paginatedBooksOut: PaginatedBooksOut) => {
@@ -54,7 +56,7 @@ export const BooksList = (): JSX.Element => {
       { books.map((book: BookOut): JSX.Element => {
         let isCollect = collectedBooksIds.includes(book.id);
 
-        return <Book book={book} isCollect={isCollect}></Book>
+        return <Book book={book} isCollect={isCollect} setCartCnt={setCartCnt}></Book>
       }) }
       <Grid item xs={12}>
         <Stack spacing={2} paddingBottom={5} alignItems="center">
@@ -65,6 +67,6 @@ export const BooksList = (): JSX.Element => {
   )
 
   return (
-    <Page content={booksList}></Page>
+    <Page content={booksList} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}}></Page>
   );
 }
