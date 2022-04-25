@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { useHistory } from "react-router-dom";
 
@@ -19,10 +19,16 @@ import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
 
 import { LoginDialog } from './LoginDialog';
 
+import { ApiError, CartsService } from '../services/elibraryAPI';
+
+const { cartsApiGetCart } = CartsService;
+
 interface Props {
   token: string | null
   updateToken: (newValue: string, options?: Cookies.CookieAttributes | undefined) => void
   deleteToken: () => void
+  cartCnt?: number
+  setCartCnt?: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const Navbar = (props: Props) => {
@@ -30,9 +36,21 @@ export const Navbar = (props: Props) => {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [formOpen, setFormOpen] = useState(false);
-  const [cartCnt, setCartCnt] = useState(0);
 
   const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    if (!props.setCartCnt) return;
+
+    cartsApiGetCart()
+      .then((resp) => {
+        if (props.setCartCnt) {
+          props.setCartCnt(resp.data.length);
+        }
+      })
+      .catch((err: ApiError) => console.log(err))
+  // eslint-disable-next-line
+  }, []);
 
   const handleCollections = (event: React.MouseEvent) => {
     if (props.token == null) {
@@ -132,7 +150,7 @@ export const Navbar = (props: Props) => {
               color="inherit"
               onClick={handleCart}
             >
-              <Badge badgeContent={cartCnt} color="error">
+              <Badge badgeContent={props.cartCnt ?? 0} color="error">
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>

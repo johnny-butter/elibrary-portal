@@ -16,13 +16,15 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
-import { ApiError, BooksService, BookOut } from '../services/elibraryAPI';
+import { ApiError, BooksService, CartsService, BookOut } from '../services/elibraryAPI';
 
 const { booksApiCollectBook } = BooksService;
+const { cartsApiPutCart } = CartsService;
 
 interface IBookProp {
   book: BookOut
   isCollect: boolean
+  setCartCnt: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const Book = (props: IBookProp) => {
@@ -36,6 +38,14 @@ export const Book = (props: IBookProp) => {
     booksApiCollectBook(props.book.id)
       .then(() => {
         setIsCollect(!isCollect);
+      })
+      .catch((err: ApiError) => console.error(err));
+  };
+
+  const handleAddCart = (): void => {
+    cartsApiPutCart({book_id: props.book.id, price: props.book.price, amount: 1})
+      .then(() => {
+        props.setCartCnt((preVal) => preVal + 1)
       })
       .catch((err: ApiError) => console.error(err));
   };
@@ -75,7 +85,7 @@ export const Book = (props: IBookProp) => {
             <IconButton aria-label="collect-book" onClick={handleCollectBook}>
               {collectBtn}
             </IconButton>
-            <IconButton aria-label="add-to-cart">
+            <IconButton aria-label="add-cart" onClick={handleAddCart}>
               <AddShoppingCartIcon />
             </IconButton>
           </CardActions>

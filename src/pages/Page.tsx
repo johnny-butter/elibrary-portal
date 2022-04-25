@@ -6,8 +6,14 @@ import { Navbar } from '../components';
 
 import Grid from '@mui/material/Grid';
 
+interface INavbarProp {
+    cartCnt?: number
+    setCartCnt?: React.Dispatch<React.SetStateAction<number>>
+}
+
 interface IPageProp {
     content: JSX.Element
+    navbarProp?: INavbarProp
 }
 
 export const Page = (props: IPageProp): JSX.Element => {
@@ -21,7 +27,13 @@ export const Page = (props: IPageProp): JSX.Element => {
             spacing={2}
         >
             <Grid item xs={12}>
-                <Navbar token={token} updateToken={updateToken} deleteToken={deleteToken}></Navbar>
+                <Navbar
+                    token={token}
+                    updateToken={updateToken}
+                    deleteToken={deleteToken}
+                    cartCnt={props.navbarProp?.cartCnt}
+                    setCartCnt={props.navbarProp?.setCartCnt}
+                ></Navbar>
             </Grid>
 
             <Grid item xs={2}></Grid>
