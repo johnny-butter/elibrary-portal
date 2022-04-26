@@ -7,6 +7,7 @@ import { Book } from '../components';
 
 import {
   Grid,
+  Stack,
 } from '@mui/material';
 
 const { booksApiCollectedBooks } = BooksService;
@@ -16,7 +17,7 @@ export const CollectedBooksList = (): JSX.Element => {
 
   const [cartCnt, setCartCnt] = useState(0);
 
-  let booksList: JSX.Element = <span>NO COLLECTED BOOKS</span>;
+  let booksList: JSX.Element = <h2>NO COLLECTED BOOKS</h2>;
 
   if (books.length > 0) {
     booksList = (
@@ -24,6 +25,11 @@ export const CollectedBooksList = (): JSX.Element => {
         container
         spacing={2}
       >
+      <Grid item xs={12}>
+        <Stack alignItems="center">
+          <h2>FAVORITE BOOKS</h2>
+        </Stack>
+      </Grid>
         { books.map((book: BookOut): JSX.Element => <Book book={book} isCollect={true} setCartCnt={setCartCnt}></Book>) }
       </Grid>
     )
