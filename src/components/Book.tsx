@@ -63,7 +63,7 @@ export const Book = (props: IBookProp) => {
           <CardMedia
             component="img"
             sx={{ height: 170, width: 170 }}
-            image="/imgNotFound.png"
+            image={props.book.image_url ?? "/imgNotFound.png"}
             alt="imgNotFound"
           />
           <CardContent>
@@ -72,7 +72,7 @@ export const Book = (props: IBookProp) => {
           </CardContent>
           <CardContent>
             <Typography variant="h6" color="text.secondary">
-              {props.book.price} TWD
+              $ {props.book.price} NTD
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
               {props.book.stock} available

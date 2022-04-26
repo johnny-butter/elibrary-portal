@@ -11,6 +11,7 @@ import {
   Grid,
   Stack,
   Pagination,
+  CircularProgress,
 } from '@mui/material';
 
 const { booksApiBooks, booksApiCollectedBooksIds } = BooksService;
@@ -20,7 +21,7 @@ export const BooksList = (): JSX.Element => {
 
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
-  const [books, setBooks] = useState<BookOut[]>([]);
+  const [books, setBooks] = useState<BookOut[] | undefined>(undefined);
   const [collectedBooksIds, setCollectedBooksIds] = useState<number[]>([]);
 
   const [cartCnt, setCartCnt] = useState(0);
@@ -48,16 +49,26 @@ export const BooksList = (): JSX.Element => {
     setPage(value);
   };
 
-  const booksList = (
+  let booksList = books !== undefined ? (
+    books.map((book: BookOut): JSX.Element => {
+      let isCollect = collectedBooksIds.includes(book.id);
+
+      return <Book book={book} isCollect={isCollect} setCartCnt={setCartCnt}></Book>
+    })
+  ) : (
+    <Grid item xs={12}>
+      <Stack alignItems="center">
+        <CircularProgress />
+      </Stack>
+    </Grid>
+  );
+
+  const booksPage = (
     <Grid
       container
       spacing={2}
     >
-      { books.map((book: BookOut): JSX.Element => {
-        let isCollect = collectedBooksIds.includes(book.id);
-
-        return <Book book={book} isCollect={isCollect} setCartCnt={setCartCnt}></Book>
-      }) }
+      {booksList}
       <Grid item xs={12}>
         <Stack spacing={2} paddingBottom={5} alignItems="center">
           <Pagination count={totalPages} variant="outlined" shape="rounded" onChange={handlePageChange} />
@@ -67,6 +78,6 @@ export const BooksList = (): JSX.Element => {
   )
 
   return (
-    <Page content={booksList} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}}></Page>
+    <Page content={booksPage} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}}></Page>
   );
 }
