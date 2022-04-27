@@ -8,14 +8,16 @@ export type { OpenAPIConfig } from './core/OpenAPI';
 
 export type { AuthIn } from './models/AuthIn';
 export type { AuthOut } from './models/AuthOut';
-export type { Book } from './models/Book';
 export type { BookOut } from './models/BookOut';
+export type { CartBook } from './models/CartBook';
 export type { CartIn } from './models/CartIn';
 export type { CartItem } from './models/CartItem';
+export type { CartOrderedItem } from './models/CartOrderedItem';
 export type { CartOut } from './models/CartOut';
 export type { CheckoutCartIn } from './models/CheckoutCartIn';
 export type { CheckoutCartOut } from './models/CheckoutCartOut';
 export type { DeleteCartIn } from './models/DeleteCartIn';
+export type { OrderBook } from './models/OrderBook';
 export type { OrderedItem } from './models/OrderedItem';
 export type { OrderIn } from './models/OrderIn';
 export type { OrderOut } from './models/OrderOut';

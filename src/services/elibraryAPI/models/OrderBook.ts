@@ -2,7 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export type Book = {
-    id: number;
+export type OrderBook = {
     name: string;
+    type: string;
 };
