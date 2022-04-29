@@ -11,11 +11,17 @@ import {
   Badge,
   Menu,
   MenuItem,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CollectionsBookmarkIcon from '@mui/icons-material/CollectionsBookmark';
+import EditIcon from '@mui/icons-material/Edit';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import LogoutIcon from '@mui/icons-material/Logout';
+
 
 import { LoginDialog } from './LoginDialog';
 
@@ -58,7 +64,7 @@ export const Navbar = (props: Props) => {
       return;
     }
 
-    history.push('/books/collected');
+    history.push('/collected');
   };
 
   const handleCart = (event: React.MouseEvent) => {
@@ -111,8 +117,24 @@ export const Navbar = (props: Props) => {
       open={open}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleEditProfile}>EDIT</MenuItem>
-      <MenuItem onClick={handleLogOut}>LOG OUT</MenuItem>
+      <MenuItem onClick={handleEditProfile}>
+        <ListItemIcon>
+          <EditIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>EDIT</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={() => { history.push('/orders'); }}>
+        <ListItemIcon>
+          <ReceiptIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>ORDERS</ListItemText>
+      </MenuItem>
+      <MenuItem onClick={handleLogOut}>
+        <ListItemIcon>
+          <LogoutIcon fontSize="small" />
+        </ListItemIcon>
+        <ListItemText>LOG OUT</ListItemText>
+      </MenuItem>
     </Menu>
   );
 

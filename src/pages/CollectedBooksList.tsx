@@ -27,7 +27,7 @@ export const CollectedBooksList = (): JSX.Element => {
       >
       <Grid item xs={12}>
         <Stack alignItems="center">
-          <h2>FAVORITE BOOKS</h2>
+          <h2>COLLECTED BOOKS</h2>
         </Stack>
       </Grid>
         { books.map((book: BookOut): JSX.Element => <Book book={book} isCollect={true} setCartCnt={setCartCnt}></Book>) }

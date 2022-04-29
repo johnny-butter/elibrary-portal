@@ -22,7 +22,7 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={BooksList} />
-      <Route path="/books/collected" component={CollectedBooksList} />
+      <Route path="/collected" component={CollectedBooksList} />
       <Route path="/oauthCallback" component={OauthCallback} />
       <Route path="/userProfile" component={UserProfile} />
       <Route path="/cart" component={Cart} />

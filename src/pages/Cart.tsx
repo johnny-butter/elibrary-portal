@@ -61,10 +61,9 @@ export const Cart = (): JSX.Element => {
     setPaymentType(event.target.value);
   }
 
-  let itemsList: JSX.Element = <span>GO SHOPPING NOW</span>;
-
-  if (items.length > 0) {
-    itemsList = (
+  let itemsList: JSX.Element = items.length === 0
+    ? (<h2>GO <a href="/" style={{textDecoration: "none"}}>SHOPPING</a> NOW</h2>)
+    : (
       <TableContainer component={Paper}>
         <Table aria-label="cart-table">
           <TableHead>
@@ -95,8 +94,7 @@ export const Cart = (): JSX.Element => {
           </TableBody>
         </Table>
       </TableContainer>
-    )
-  }
+    );
 
   let orderTable: JSX.Element = (
     <TableContainer component={Paper} hidden={orderTblHidden}>
