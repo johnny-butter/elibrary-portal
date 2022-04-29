@@ -2,10 +2,10 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { OrderBook } from './OrderBook';
+import type { CartBook } from './CartBook';
 
-export type OrderedItem = {
-    book: OrderBook;
+export type CartOrderedItem = {
+    book: CartBook;
     price: number;
     amount: number;
 };

@@ -2,11 +2,11 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Book } from './Book';
+import type { CartBook } from './CartBook';
 
 export type CartItem = {
     id: number;
-    book: Book;
+    book: CartBook;
     price: number;
     amount: number;
 };

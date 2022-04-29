@@ -10,6 +10,8 @@ import {
   UserProfile,
   OauthCallback,
   Cart,
+  Purchase,
+  OrdersList,
 } from './pages';
 
 import { OpenAPI } from './services/elibraryAPI';
@@ -22,10 +24,12 @@ ReactDOM.render(
   <Router>
     <Switch>
       <Route exact path="/" component={BooksList} />
-      <Route path="/books/collected" component={CollectedBooksList} />
+      <Route path="/collected" component={CollectedBooksList} />
       <Route path="/oauthCallback" component={OauthCallback} />
       <Route path="/userProfile" component={UserProfile} />
       <Route path="/cart" component={Cart} />
+      <Route path="/purchase" component={Purchase} />
+      <Route path="/orders" component={OrdersList} />
     </Switch>
   </Router>,
   document.getElementById('root')

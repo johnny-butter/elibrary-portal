@@ -33,7 +33,8 @@ export const CartItemRow = (props: ICartItemRowProp) => {
           setHidden('none');
         })
         .catch((err: ApiError) => console.error(err))
-        .finally(() => { return; });
+
+      return;
     }
 
     cartsApiPutCart({book_id: props.item.book.id, amount: selectedNum})
