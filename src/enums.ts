@@ -1,3 +1,8 @@
+export enum PaymentType {
+  CreditCard = 'CreditCard',
+  Transfer = 'Transfer',
+}
+
 export enum OrderState {
   Init = 'Init',
   Paid = 'Paid',

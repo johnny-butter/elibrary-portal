@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 
+import { useHistory } from "react-router-dom";
+
 import { ApiError, CartsService, CartOut, CartItem, CheckoutCartOut } from '../services/elibraryAPI';
+
+import { PaymentType } from '../enums';
 
 import { Page } from './Page'
 
@@ -25,6 +29,8 @@ import { Notifybar, CartItemRow } from '../components';
 const { cartsApiGetCart, cartsApiCheckoutCart } = CartsService;
 
 export const Cart = (): JSX.Element => {
+  const history = useHistory();
+
   const [notifyMsg, setNotifyMsg] = useState('');
   const [notifyOpen, setNotifyOpen] = useState(false);
 
@@ -32,7 +38,7 @@ export const Cart = (): JSX.Element => {
   const [totalPrice, setTotalPrice] = useState(999999);
 
   const [orderTblHidden, setOrderTblHidden] = useState(true);
-  const [paymentType, setPaymentType] = useState('CreditCard');
+  const [paymentType, setPaymentType] = useState<string>(PaymentType.CreditCard);
 
   useEffect(() => {
     cartsApiGetCart()
@@ -50,11 +56,9 @@ export const Cart = (): JSX.Element => {
   const handleCheckoutConfirm = () => {
     cartsApiCheckoutCart({payment_type: paymentType})
       .then((resp: CheckoutCartOut) => {
-
+        history.push(`/purchase?type=${paymentType}&id=${resp.order_id}`);
       })
-      .catch((err: ApiError) => console.log(err))
-
-    setOrderTblHidden(false);
+      .catch((err: ApiError) => console.log(err));
   };
 
   const handlePaymentType = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -139,18 +143,18 @@ export const Cart = (): JSX.Element => {
           <TableRow>
             <TableCell>
             <Radio
-              checked={paymentType === 'CreditCard'}
+              checked={paymentType === PaymentType.CreditCard}
               onChange={handlePaymentType}
-              value="CreditCard"
+              value={PaymentType.CreditCard}
               name="radio-buttons"
-              inputProps={{ 'aria-label': 'CreditCard' }}
+              inputProps={{ 'aria-label': PaymentType.CreditCard }}
             /> CREDIT CARD
             <Radio
-              checked={paymentType === 'Transfer'}
+              checked={paymentType === PaymentType.Transfer}
               onChange={handlePaymentType}
-              value="Transfer"
+              value={PaymentType.Transfer}
               name="radio-buttons"
-              inputProps={{ 'aria-label': 'Transfer' }}
+              inputProps={{ 'aria-label': PaymentType.Transfer }}
             /> TRANSFER
             </TableCell>
           </TableRow>
