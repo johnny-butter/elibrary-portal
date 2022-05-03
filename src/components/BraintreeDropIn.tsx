@@ -7,6 +7,7 @@ import dropin from 'braintree-web-drop-in';
 import { ApiError, OrdersService } from '../services/elibraryAPI';
 
 import {
+  AlertColor,
   Grid,
   Stack,
   Button,
@@ -14,8 +15,15 @@ import {
 
 const { ordersApiPay } = OrdersService;
 
+interface INotifyProp {
+  setSeverity: React.Dispatch<React.SetStateAction<AlertColor>>
+  setContent: React.Dispatch<React.SetStateAction<string>>
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
 interface IBraintreeDropInProp {
   orderId: number
+  notifyProp: INotifyProp
 }
 
 export const BraintreeDropIn = (props: IBraintreeDropInProp) => {
@@ -58,8 +66,11 @@ export const BraintreeDropIn = (props: IBraintreeDropInProp) => {
 
       ordersApiPay({order_id: props.orderId, payment_method_nonce: payload.nonce})
         .then(() => {
-          alert('SUCCESS! REDIRECT TO HOME!');
-          history.push('/');
+          props.notifyProp.setSeverity('success');
+          props.notifyProp.setContent('SUCCESS! REDIRECT TO HOME!');
+          props.notifyProp.setOpen(true);
+
+          setTimeout(() => { history.push('/'); }, 5000);
         })
         .catch((err: ApiError) => {
           console.log(err);
