@@ -34,6 +34,10 @@ export const notifyApiErr = (
     });
 }
 
+export const parseApiErrMsg = (body: any): string => {
+  return body['error_message'] as string
+}
+
 export const convLocalTimeStr = (timeStr: string, timeFormat: string): string => {
   return moment(timeStr).tz(moment.tz.guess()).format(timeFormat);
 }

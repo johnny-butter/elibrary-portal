@@ -7,19 +7,12 @@ import dropin from 'braintree-web-drop-in';
 import { ApiError, OrdersService } from '../services/elibraryAPI';
 
 import {
-  AlertColor,
   Grid,
   Stack,
   Button,
 } from '@mui/material';
 
 const { ordersApiPay } = OrdersService;
-
-interface INotifyProp {
-  setSeverity: React.Dispatch<React.SetStateAction<AlertColor>>
-  setContent: React.Dispatch<React.SetStateAction<string>>
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
 
 interface IBraintreeDropInProp {
   orderId: number
