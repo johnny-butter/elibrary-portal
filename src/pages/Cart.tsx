@@ -78,7 +78,7 @@ export const Cart = (): JSX.Element => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { items.map((item) => <CartItemRow item={item} setNotifyMsg={setNotifyMsg} setNotifyOpen={setNotifyOpen} />) }
+            { items.map((item) => <CartItemRow item={item} setTotalPrice={setTotalPrice} setNotifyMsg={setNotifyMsg} setNotifyOpen={setNotifyOpen} />) }
             <TableRow>
               <TableCell colSpan={1} />
               <TableCell align="right">TOTAL</TableCell>
