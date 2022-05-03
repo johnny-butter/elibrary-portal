@@ -16,6 +16,8 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
+import { parseApiErrMsg } from '../utils';
+
 import { ApiError, BooksService, CartsService, BookOut } from '../services/elibraryAPI';
 
 const { booksApiCollectBook } = BooksService;
@@ -25,6 +27,7 @@ interface IBookProp {
   book: BookOut
   isCollect: boolean
   setCartCnt: React.Dispatch<React.SetStateAction<number>>
+  notifyProp: INotifyProp
 }
 
 export const Book = (props: IBookProp) => {
@@ -47,7 +50,11 @@ export const Book = (props: IBookProp) => {
       .then(() => {
         props.setCartCnt((preVal) => preVal + 1)
       })
-      .catch((err: ApiError) => console.error(err));
+      .catch((err: ApiError) => {
+        props.notifyProp.setSeverity('error');
+        props.notifyProp.setContent(parseApiErrMsg(err.body));
+        props.notifyProp.setOpen(true);
+      });
   };
 
   const collectBtn = isCollect ? <FavoriteIcon /> : <FavoriteBorderIcon />;

@@ -6,6 +6,7 @@ import { Page } from './Page'
 import { Book } from '../components';
 
 import {
+  AlertColor,
   Grid,
   Stack,
 } from '@mui/material';
@@ -16,6 +17,17 @@ export const CollectedBooksList = (): JSX.Element => {
   const [books, setBooks] = useState<BookOut[]>([]);
 
   const [cartCnt, setCartCnt] = useState(0);
+
+  const [notifySeverity, setNotifySeverity] = useState('success' as AlertColor);
+  const [notifyContent, setNotifyContent] = useState('');
+  const [notifyOpen, setNotifyOpen] = useState(false);
+
+  let notifyBarProp = {
+    severity: notifySeverity,
+    content: notifyContent,
+    open: notifyOpen,
+    setOpen: setNotifyOpen,
+  };
 
   let booksList: JSX.Element = <h2>NO COLLECTED BOOKS</h2>;
 
@@ -30,7 +42,17 @@ export const CollectedBooksList = (): JSX.Element => {
           <h2>COLLECTED BOOKS</h2>
         </Stack>
       </Grid>
-        { books.map((book: BookOut): JSX.Element => <Book book={book} isCollect={true} setCartCnt={setCartCnt}></Book>) }
+        { books.map((book: BookOut): JSX.Element => {
+          return <Book
+            book={book}
+            isCollect={true}
+            setCartCnt={setCartCnt}
+            notifyProp={{
+              setSeverity: setNotifySeverity,
+              setContent: setNotifyContent,
+              setOpen: setNotifyOpen,
+            }} />
+        }) }
       </Grid>
     )
   }
@@ -44,6 +66,6 @@ export const CollectedBooksList = (): JSX.Element => {
   }, []);
 
   return (
-    <Page content={booksList} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}}></Page>
+    <Page content={booksList} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}} notifybarProp={notifyBarProp}></Page>
   );
 }

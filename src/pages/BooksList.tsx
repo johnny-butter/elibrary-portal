@@ -8,6 +8,7 @@ import { Page } from './Page'
 import { Book } from '../components';
 
 import {
+  AlertColor,
   Grid,
   Stack,
   Pagination,
@@ -25,6 +26,17 @@ export const BooksList = (): JSX.Element => {
   const [collectedBooksIds, setCollectedBooksIds] = useState<number[]>([]);
 
   const [cartCnt, setCartCnt] = useState(0);
+
+  const [notifySeverity, setNotifySeverity] = useState('success' as AlertColor);
+  const [notifyContent, setNotifyContent] = useState('');
+  const [notifyOpen, setNotifyOpen] = useState(false);
+
+  let notifyBarProp = {
+    severity: notifySeverity,
+    content: notifyContent,
+    open: notifyOpen,
+    setOpen: setNotifyOpen,
+  };
 
   useEffect(() => {
     booksApiBooks(page)
@@ -53,7 +65,17 @@ export const BooksList = (): JSX.Element => {
     books.map((book: BookOut): JSX.Element => {
       let isCollect = collectedBooksIds.includes(book.id);
 
-      return <Book book={book} isCollect={isCollect} setCartCnt={setCartCnt}></Book>
+      return (
+        <Book
+          book={book}
+          isCollect={isCollect}
+          setCartCnt={setCartCnt}
+          notifyProp={{
+            setSeverity: setNotifySeverity,
+            setContent: setNotifyContent,
+            setOpen: setNotifyOpen,
+          }} />
+      )
     })
   ) : (
     <Grid item xs={12}>
@@ -78,6 +100,6 @@ export const BooksList = (): JSX.Element => {
   )
 
   return (
-    <Page content={booksPage} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}}></Page>
+    <Page content={booksPage} navbarProp={{cartCnt: cartCnt, setCartCnt: setCartCnt}} notifybarProp={notifyBarProp}></Page>
   );
 }

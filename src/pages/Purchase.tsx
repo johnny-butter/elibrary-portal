@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import queryString from 'query-string';
 
 import { PaymentType } from '../enums';
@@ -7,12 +9,24 @@ import { Page } from './Page'
 import { BraintreeDropIn } from '../components';
 
 import {
+  AlertColor,
   Grid,
   Stack,
   CircularProgress,
 } from '@mui/material';
 
 export const Purchase = (): JSX.Element => {
+  const [notifySeverity, setNotifySeverity] = useState('success' as AlertColor);
+  const [notifyContent, setNotifyContent] = useState('');
+  const [notifyOpen, setNotifyOpen] = useState(false);
+
+  let notifyBarProp = {
+    severity: notifySeverity,
+    content: notifyContent,
+    open: notifyOpen,
+    setOpen: setNotifyOpen,
+  };
+
   const queryParams = queryString.parse(window.location.search);
   const paymentType = queryParams.type?.toString();
   const orderId = Number(queryParams.id?.toString());
@@ -27,7 +41,15 @@ export const Purchase = (): JSX.Element => {
 
   switch (paymentType) {
     case PaymentType.CreditCard: {
-      purchasePage = <BraintreeDropIn orderId={orderId} />
+      purchasePage = (
+        <BraintreeDropIn
+          orderId={orderId}
+          notifyProp={{
+            setSeverity: setNotifySeverity,
+            setContent: setNotifyContent,
+            setOpen: setNotifyOpen,
+          }}/>
+      )
       break;
     }
     case PaymentType.Transfer: {
@@ -50,6 +72,6 @@ export const Purchase = (): JSX.Element => {
   }
 
   return (
-    <Page content={purchasePage}></Page>
+    <Page content={purchasePage} notifybarProp={notifyBarProp}></Page>
   );
 }

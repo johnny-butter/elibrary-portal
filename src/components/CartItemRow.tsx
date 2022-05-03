@@ -12,10 +12,11 @@ import { notifyApiErr } from '../utils';
 
 import { ApiError, CartsService, CartItem } from '../services/elibraryAPI';
 
-const { cartsApiPutCart, cartsApiDeleteCart } = CartsService;
+const { cartsApiGetCart, cartsApiPutCart, cartsApiDeleteCart } = CartsService;
 
 interface ICartItemRowProp {
   item: CartItem
+  setTotalPrice: React.Dispatch<React.SetStateAction<number>>
   setNotifyMsg: React.Dispatch<React.SetStateAction<string>>
   setNotifyOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -48,6 +49,12 @@ export const CartItemRow = (props: ICartItemRowProp) => {
     setAmount(props.item.amount);
   // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    cartsApiGetCart()
+      .then((resp) => { props.setTotalPrice(resp.total_price); })
+      .catch((err: ApiError) => { console.error(err); })
+  });
 
   return (
     <React.Fragment>

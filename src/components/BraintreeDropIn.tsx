@@ -16,6 +16,7 @@ const { ordersApiPay } = OrdersService;
 
 interface IBraintreeDropInProp {
   orderId: number
+  notifyProp: INotifyProp
 }
 
 export const BraintreeDropIn = (props: IBraintreeDropInProp) => {
@@ -58,8 +59,11 @@ export const BraintreeDropIn = (props: IBraintreeDropInProp) => {
 
       ordersApiPay({order_id: props.orderId, payment_method_nonce: payload.nonce})
         .then(() => {
-          alert('SUCCESS! REDIRECT TO HOME!');
-          history.push('/');
+          props.notifyProp.setSeverity('success');
+          props.notifyProp.setContent('SUCCESS! REDIRECT TO HOME!');
+          props.notifyProp.setOpen(true);
+
+          setTimeout(() => { history.push('/'); }, 5000);
         })
         .catch((err: ApiError) => {
           console.log(err);
